@@ -18,21 +18,27 @@ def Start():
   DirectoryItem.thumb=R("icon-default.jpg")
   
 ####################################################################################################
-def MainMenu():
-    dir = MediaContainer(mediaType='video')
-    dir.Append(Function(DirectoryItem(MeatList, "Full Episodes"), pageUrl = TheCW_SHOWS_LIST))
-    
-    return dir
-
+#def MainMenu():
+#    dir = MediaContainer(mediaType='video')
+#    dir.Append(Function(DirectoryItem(MeatList, "Full Episodes"), pageUrl = TheCW_SHOWS_LIST))
+#    
+#    return dir
+#
 ####################################################################################################
-def MeatList(sender, pageUrl):
-    dir = MediaContainer(title2=sender.itemTitle)
+def MainMenu():
+    
+    
+    dir = MediaContainer(mediaType='video')
+    pageUrl=TheCW_SHOWS_LIST
+    Log(pageUrl)
     content = XML.ElementFromURL(pageUrl, True)
+    Log(content)
     for item in content.xpath('//ul[@id="shows-all-list"]//li/div'):
   
         
-        link = item.xpath("a")[0].get('href').strip("/shows")
+        link = item.xpath("a")[0].get('href').replace("/shows","")
         link=EP_URL + link
+        link=link.replace('video//','video/')
         title = item.xpath("a/img")[0].get('title')
         title=title.replace("-"," ")
         thumb=item.xpath("a/img")[0].get('src')
